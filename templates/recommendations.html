@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Opções de titulos
+{% endblock %}
+
+{% block main %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Streaming</th>
+                <th scope="col">Average Rating</th>
+                <th scope="col">Smilarity score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in recommendat.index %}
+                <tr>
+                    <td>{{ recommendat['title'][i] }}</td>
+                    <td>{{ recommendat['streaming'][i] }}</td>
+                    <td>{{ recommendat['average_rating'][i] }}</td>
+                    <td>{{ recommendat['sim_score'][i] }}</td>
+                </tr>
+            {% endfor%}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Sistema de recomendação
+{% endblock %}
+
+{% block main %}
+    <h1>Sistema de recomendação</h1>
+    <form action='/' method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="title" placeholder="title" type="text"/>
+        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+{% endblock %}
+

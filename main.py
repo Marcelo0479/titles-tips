@@ -7,7 +7,7 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 app.secret_key = 'super secret key'
 
-df = pd.read_csv('https://raw.githubusercontent.com/Marcelo0479/recommendation_system/main/df_heroku_66.csv', sep=';')
+df = pd.read_csv('https://raw.githubusercontent.com/Marcelo0479/recommendation_system/main/df_heroku_67.csv', sep=';')
 
 tfidf = TfidfVectorizer(stop_words='english')
 tfidf_matrix = tfidf.fit_transform(df['genre_parental_guidelines_and_description'])

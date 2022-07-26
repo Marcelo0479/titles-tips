@@ -21,7 +21,17 @@ def index():
 
     else:
         title_name = request.form.get("title")
-        title_option = df.title[df.title.str.upper().str.contains(title_name.upper())]
+        if not title_name:
+            message = 'Must enter a title'
+            code_error = 400
+            return render_template('apology.html', code_error=code_error, message=message)
+        else:
+            title_option = df.title[df.title.str.upper().str.contains(title_name.upper())]
+            if len(title_option) == 0:
+                message = 'Title not found'
+                code_error = 400
+                return render_template('apology.html', code_error=code_error, message=message)
+
         return render_template('options.html', options=title_option.values)
 
 
@@ -46,6 +56,11 @@ def options():
             recommendation.sort_values(by='average_rating', ascending=False, inplace=True)
 
         return render_template('recommendations.html', recommendat=recommendation)
+
+
+@app.route("/explanations")
+def explanations():
+    return render_template('explanations.html')
 
 
 if __name__ == "__main__":

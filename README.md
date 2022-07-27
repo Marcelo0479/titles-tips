@@ -18,4 +18,6 @@ The title.basics.tsv.gz file to get the titles's id and the title.ratings.tsv.gz
 
 - [IMDBs datasets files](https://www.imdb.com/interfaces/)
 
-Then I place this dataset on a google drive account and create a python notebook. In this notebook I build a database crossing this datasets files, clean the unnecessary datas and applied the tfidfvectorizer algorithm to create a coefficient of similarity between each title and all others titles. This algorithm uses pnl to create that coefficient. In this project I used the follow datas for feed the algorithm, the description, the parental guideline and the genre of the titles.
+Then I place this dataset on a google drive account and create a python notebook. In this notebook I build a database crossing this datasets files, clean the unnecessary datas and applied the tfidfvectorizer algorithm to create a coefficient of similarity between each title and all others titles. This algorithm uses pnl to create that coefficient. In this project I used the follow datas for feed the algorithm, the description, the parental guideline and the genre of the titles. Finaly I create a function that return a list of the ten most similar title sorted by IMBD score based on a title.
+
+- [Python notebook](https://colab.research.google.com/drive/1qOG-FHGHFySotNsKQV6WJQ9Z7oPXq1hy#scrollTo=z46CHtdjS_FD)

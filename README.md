@@ -23,3 +23,5 @@ Then I place this dataset on a google drive account and create a python notebook
 - [Python notebook](https://colab.research.google.com/drive/1qOG-FHGHFySotNsKQV6WJQ9Z7oPXq1hy#scrollTo=z46CHtdjS_FD)
 
 Then I resolved to upgrade this project adding the HBO max dataset and getting the latest datas, unfortunately I cannot find this dataset. So, I decid to scraping this datas. I find the flixable site that have the datas that I need. 
+
+- [Scraping notebook](https://github.com/Marcelo0479/titles-tips/blob/master/python%20notebooks/Scraping%20titles.ipynb)

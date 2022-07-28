@@ -25,3 +25,11 @@ Then I place this dataset on a google drive account and create a python notebook
 Then I resolved to upgrade this project adding the HBO max dataset and getting the latest datas, unfortunately I cannot find this dataset. So, I decid to scraping this datas. I find the flixable site that have the datas that I need. 
 
 - [Scraping notebook](https://github.com/Marcelo0479/titles-tips/blob/master/python%20notebooks/Scraping%20titles.ipynb)
+
+After scraping the dates of each streaming service I cleaned and crossed the datasets to create one single dataset with all desirable options. The python notebook follow below.
+
+- [Working datas notebook]()
+
+Finally with the filtered datas, I created the web app with flask. The code is in this git repository. The url of the site follow below.
+
+- [Titles-tips](https://titles-tips.herokuapp.com/)

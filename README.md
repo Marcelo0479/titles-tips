@@ -28,7 +28,7 @@ Then I resolved to upgrade this project adding the HBO max dataset and getting t
 
 After scraping the dates of each streaming service I cleaned and crossed the datasets to create one single dataset with all desirable options. The python notebook follow below.
 
-- [Working datas notebook]()
+- [Data processing notebook](https://github.com/Marcelo0479/titles-tips/blob/master/python%20notebooks/Data%20Processing.ipynb)
 
 Finally with the filtered datas, I created the web app with flask. The code is in this git repository. The url of the site follow below.
 

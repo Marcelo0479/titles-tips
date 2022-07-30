@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -80,6 +81,7 @@ def options():
 
         df_sim_scores = pd.DataFrame(sim_scores).set_index(0)
         df_sim_scores.rename(columns={1: 'sim_score'}, inplace=True)
+        df_sim_scores = np.round(df_sim_scores * 100, 2).astype('str') + '%'
         recommendation = pd.concat([df_titles_streamming, df_sim_scores], axis=1)
         recommendation.sort_values(by='average_rating', ascending=False, inplace=True)
 

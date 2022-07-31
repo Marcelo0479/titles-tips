@@ -46,7 +46,7 @@ def index():
         return render_template('index.html')
 
     else:
-        title_name = request.form.get("title")
+        title_name = request.form.get("title").strip()
         if not title_name:
             message = 'Must enter a title'
             code_error = 400

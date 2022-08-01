@@ -39,6 +39,28 @@ def chosen_dataframe(chose_title):
     if df.parental_guidelines[id_] == 'Adults':
         return df_adults
 
+def recommendation(title_name):
+    df_by_parental_guideline = chosen_dataframe(title_name)
+    correct_index(df_by_parental_guideline)
+    cosine_sim_ = cosine_sim(df_by_parental_guideline)
+
+    idx = df_by_parental_guideline[df_by_parental_guideline.title == title_name].index[0]
+
+    sim_scores = list(enumerate(cosine_sim_[idx]))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    sim_scores = sim_scores[1:11]
+    movie_index = [i[0] for i in sim_scores]
+
+    df_titles_streamming = df_by_parental_guideline[['title', 'streaming', 'average_rating']].iloc[movie_index]
+
+    df_sim_scores = pd.DataFrame(sim_scores).set_index(0)
+    df_sim_scores.rename(columns={1: 'sim_score'}, inplace=True)
+    df_sim_scores = np.round(df_sim_scores * 100, 2).astype('str') + '%'
+    recommendations = pd.concat([df_titles_streamming, df_sim_scores], axis=1)
+    recommendations.sort_values(by='average_rating', ascending=False, inplace=True)
+
+    return recommendations
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -46,17 +68,20 @@ def index():
         return render_template('index.html')
 
     else:
-        title_name = request.form.get("title").strip()
+        title_name = request.form.get("title").strip().title()
         if not title_name:
             message = 'Must enter a title'
             code_error = 400
             return render_template('apology.html', code_error=code_error, message=message)
         else:
-            title_option = df.title[df.title.str.upper().str.contains(title_name.upper())]
+            title_option = df.title[df.title.str.contains(title_name)]
             if len(title_option) == 0:
                 message = 'Title not found'
                 code_error = 400
                 return render_template('apology.html', code_error=code_error, message=message)
+            if len(title_option) == 1 and title_option.values[0] == title_name:
+                recommendations = recommendation(title_name)
+                return render_template('recommendations.html', recommendat=recommendations)
 
         return render_template('options.html', options=title_option.values)
 
@@ -66,26 +91,8 @@ def options():
     if request.method == 'POST':
         title_name = request.form.get("title")
 
-        df_by_parental_guideline = chosen_dataframe(title_name)
-        correct_index(df_by_parental_guideline)
-        cosine_sim_ = cosine_sim(df_by_parental_guideline)
-
-        idx = df_by_parental_guideline[df_by_parental_guideline.title == title_name].index[0]
-
-        sim_scores = list(enumerate(cosine_sim_[idx]))
-        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-        sim_scores = sim_scores[1:11]
-        movie_index = [i[0] for i in sim_scores]
-
-        df_titles_streamming = df_by_parental_guideline[['title', 'streaming', 'average_rating']].iloc[movie_index]
-
-        df_sim_scores = pd.DataFrame(sim_scores).set_index(0)
-        df_sim_scores.rename(columns={1: 'sim_score'}, inplace=True)
-        df_sim_scores = np.round(df_sim_scores * 100, 2).astype('str') + '%'
-        recommendation = pd.concat([df_titles_streamming, df_sim_scores], axis=1)
-        recommendation.sort_values(by='average_rating', ascending=False, inplace=True)
-
-    return render_template('recommendations.html', recommendat=recommendation)
+        recommendations = recommendation(title_name)
+        return render_template('recommendations.html', recommendat=recommendations)
 
 
 @app.route("/explanations")

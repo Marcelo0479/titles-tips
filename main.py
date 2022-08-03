@@ -18,7 +18,7 @@ df_adults = df[(df.parental_guidelines == 'Adults') | (df.parental_guidelines ==
 language = ['English', 'Português']
 
 texts_en = ["Home", "Explanations", "Contact",
-            "You subscribe to multiple streaming services and don't know what to watch. I can help you.",
+            "You subscribe to multiple streaming services and don't know what to watch? I can help you.",
             "Enter the name of a movie or TV show that you liked and I will indicate the 10 most similar titles among the main streaming services.",
             "We are currently checking the titles of the following streaming services:",
             'You must enter a title', 'Title not found']

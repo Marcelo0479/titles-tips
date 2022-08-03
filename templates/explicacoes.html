@@ -1,0 +1,32 @@
+{% extends "layout_br.html" %}
+
+{% block title %}
+    Explicações
+{% endblock %}
+
+{% block main %}
+    <h1>O objetivo</h1>
+    <img src="https://raw.githubusercontent.com/Marcelo0479/recommendation_system/main/explanation%20meme.png">
+    <br>
+
+    <p>
+    <h4>O objetivo deste aplicativo é fornecer dicas de título com base em um título de referência.
+     A mecânica sobre esta recomendação vem de um algoritmo de aprendizado de máquina chamado
+     TfidfVectorizer. Resumidamente, compara alguns textos de cada título e cria uma matriz
+     com um coeficiente de semelhança entre cada título e todos os outros títulos. Nesse caso,
+     o texto do título consiste na descrição, orientação parental e gênero de cada título.</h4>
+    </p>
+
+    <br>
+    <br>
+
+    <h2>Limitações</h2>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnnF8m3TAnguKxRLnrAOQqe1qdrk5kW24Ukg&usqp=CAU">
+    <br>
+
+    <p>
+    <h4>Infelizmente, a conta gratuita da plataforma de nuvem heroku é muito limitada.
+     Por esta razão, a base de dados de títulos é dividida por orientação parental
+     e, na opção parental adulto, aos títulos com pontuação média superior a 6.</h4>
+    </p>
+{% endblock %}

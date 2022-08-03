@@ -1,0 +1,28 @@
+{% extends 'layout_br.html' %}
+
+{% block title %}
+    Melhores dicas de títulos
+{% endblock %}
+
+{% block main %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Titulo</th>
+                <th scope="col">Streaming</th>
+                <th scope="col">Nota Média</th>
+                <th scope="col">Similaridade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in recommendat.index %}
+                <tr>
+                    <td>{{ recommendat['title'][i] }}</td>
+                    <td>{{ recommendat['streaming'][i] }}</td>
+                    <td>{{ recommendat['average_rating'][i] }}</td>
+                    <td>{{ recommendat['sim_score'][i] }}</td>
+                </tr>
+            {% endfor%}
+        </tbody>
+    </table>
+{% endblock %}

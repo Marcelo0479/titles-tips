@@ -25,21 +25,36 @@
         <nav class="navbar navbar-expand-md navbar-light bg-light border">
             <a class="navbar-brand" href="/"><span class="black">Titles - </span><span class="blue">T</span><span class="red">I</span><span class="yellow">P</span><span class="green">S</span></a>
             <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item"><a class="nav-link" href="/explanations">Explanations</a></li>
-                <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="/explanations">{{ texts[1] }}</a></li>
+                <li class="nav-item"><a class="nav-link" href="/contact">{{ texts[2] }}</a></li>
+                <li class="nav-item"><a class="nav-link" style="background-color: #AAAAAA;border-radius: 3px" href="/br">Português</a></li>
             </ul>
         </nav>
 
         <main class="container p-5">
-            <h2>Enter a title you liked</h2>
-            <h5>and see the top ten similar
-            titles on streaming services</h5>
+            <h4>{{ texts[3] }}</h4>
+            <h4>{{ texts[4] }}</h4>
+
             <form action='/' method="post">
                 <div class="form-group">
                     <input autocomplete="off" autofocus class="form-control" name="title" placeholder="title" type="text"/>
                 </div>
                 <button class="btn btn-primary" type="submit">Submit</button>
             </form>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <h5>{{ texts[5] }}
+                <ul style="list-style-type:none">
+                    <li>Disney +</li>
+                    <li>HBO Max</li>
+                    <li>Hulu</li>
+                    <li>Netflix</li>
+                    <li>Prime Video</li>
+                </ul>
+            </h5>
         </main>
 
         <footer class="small text-center text-muted">

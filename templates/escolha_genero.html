@@ -1,0 +1,37 @@
+{% extends 'layout_br.html' %}
+
+{% block title %}
+    Genres options
+{% endblock %}
+
+{% block main %}
+    <h1>Filtro de gêneros</h1>
+    <br>
+    <h3>{{title_name}}</h3>
+    <br>
+    <h4>Deseja filtrar por gênero? Se sim, clique no gênero escolhido, do contrário clique em não..</h4>
+    <form action="/genre_choice_br" method="post">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Gêneros do título</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for genre in genres %}
+                    <tr>
+                        <td>
+                            <input name="genre" type="submit" value="{{ genre }}">
+                        </td>
+                    </tr>
+                {% endfor%}
+                    <tr>
+                        <td>
+                            <input name="genre" type="submit" style="background-color:tomato;" value="Não">
+                        </td>
+                    </tr>
+            </tbody>
+            <input name="title" type="hidden" value="{{ title_name }}">
+        </table>
+    </form>
+{% endblock %}

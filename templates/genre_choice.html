@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Genres options
+{% endblock %}
+
+{% block main %}
+    <h1>Genres filter</h1>
+    <br>
+    <h3>{{title_name}}</h3>
+    <br>
+    <h4> Would you like to filter by genre? If yes, click on the chosen genre, if no, click on no.</h4>
+    <form action="/genre_choice" method="post">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Title's Genres</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for genre in genres %}
+                    <tr>
+                        <td>
+                            <input name="genre" type="submit" value="{{ genre }}">
+                        </td>
+                    </tr>
+                {% endfor%}
+                    <tr>
+                        <td>
+                            <input name="genre" type="submit" style="background-color:tomato;" value="No">
+                        </td>
+                    </tr>
+            </tbody>
+            <input name="title" type="hidden" value="{{ title_name }}">
+        </table>
+    </form>
+{% endblock %}

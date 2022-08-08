@@ -37,7 +37,13 @@
 
             <form action='/br' method="post">
                 <div class="form-group">
-                    <input autocomplete="off" autofocus class="form-control" name="title" placeholder="title" type="text"/>
+                    <input autofocus class="form-control" name="title" required
+                           placeholder="title" type="text" list="titles_options"/>
+                    <datalist id="titles_options">
+                        {% for title_opt in titles %}
+                        <option value="{{ title_opt }}"></option>
+                        {% endfor%}
+                    </datalist>
                 </div>
                 <button class="btn btn-primary" type="submit">Submit</button>
             </form>

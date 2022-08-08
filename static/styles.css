@@ -45,3 +45,49 @@ main img
     /* Constrain images on small screens */
     max-width: 100%;
 }
+
+/*
+*{
+    box-sizing: border-box
+}
+
+body{
+    display: flex;
+    align-itms: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0;
+    text-align: center;
+    padding: 5rem;
+    transition: backgroun 0.5s linear, color 0.5s linear;
+}
+
+body.dark{
+    backgroun-color: black;
+    color: white;
+}
+
+.container{
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+label{
+    backgroun-color: black;
+    border-radius: 40%;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    user-select: none:
+    transition: backgroun 0.5s linear;
+}
+
+body.dark label{
+    backgroun-color: white;
+}
+
+input{
+    visibility: hidden;
+}

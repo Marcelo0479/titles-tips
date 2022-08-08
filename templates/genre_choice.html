@@ -9,7 +9,7 @@
     <br>
     <h3>{{title_name}}</h3>
     <br>
-    <h4> Would you like to filter by genre? If yes, click on the chosen genre, if no, click on no.</h4>
+    <h4> Would you like to filter by genre? If yes, click on the chosen genre, if no, just click submit.</h4>
     <form action="/genre_choice" method="post">
         <table class="table">
             <thead>
@@ -21,13 +21,16 @@
                 {% for genre in genres %}
                     <tr>
                         <td>
-                            <input name="genre" type="submit" value="{{ genre }}">
+                            <input name="genre" type="checkbox" value="{{ genre }}">
+                            <label style="background-color:DarkSeaGreen; font-size:20px">
+                                {{ genre }}
+                            </label>
                         </td>
                     </tr>
                 {% endfor%}
                     <tr>
                         <td>
-                            <input name="genre" type="submit" style="background-color:tomato;" value="No">
+                            <input type="submit" value="Submit">
                         </td>
                     </tr>
             </tbody>

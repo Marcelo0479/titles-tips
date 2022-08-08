@@ -21,12 +21,12 @@ texts_en = ["Home", "Explanations", "Contact",
             "You subscribe to multiple streaming services and don't know what to watch? I can help you.",
             "Enter the name of a movie or TV show that you liked and I will indicate the 10 most similar titles among the main streaming services.",
             "We are currently checking the titles of the following streaming services:",
-            'You must enter a title', 'Title not found']
+            'You must select a title', 'Title not found']
 texts_br = ["Inicio", "Explicações", "Contato",
             "Você assina vários serviços de streaming e não sabe o que ver? Eu posso te ajudar.",
             "Digite o nome de um filme ou programa de TV que você gostou e indicarei os 10 títulos mais parecidos entre os principais serviços de streaming.",
             "Atualmente estamos verificando os títulos dos seguintes serviços de streaming:",
-            'Você deve digitar um título', 'Título não encontrado']
+            'Você deve escolher um título', 'Título não encontrado']
 
 
 def correct_index(select_df):
@@ -62,16 +62,23 @@ def get_genres(chose_title):
 
 
 def filter_by_genre(genre):
-    key_g = df_genres[df_genres.genre == genre].key.values[0]
-    select_df = df[df.genre.str.contains(key_g)]
+    for i in range(len(genre)):
+        if i == 0:
+            key_g = df_genres[df_genres.genre == genre[i]].key.values[0]
+            select_df = df[df.genre.str.contains(key_g)]
+        if i > 0:
+            key_g = df_genres[df_genres.genre == genre[i]].key.values[0]
+            select_df = select_df.merge(df[df.genre.str.contains(key_g)], how='inner')
     return select_df
 
 
 def recommendation(title_name, genre):
-    if genre in df_genres.genre.values:
+    if len(genre) > 0:
         select_df = filter_by_genre(genre)
     else:
         select_df = chosen_pg_df(title_name)
+
+    print(len(select_df))
 
     correct_index(select_df)
     cosine_sim_ = cosine_sim(select_df)
@@ -97,78 +104,56 @@ def recommendation(title_name, genre):
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == 'GET':
-        return render_template('index.html', texts=texts_en)
+        titles = df.title.sort_values().values
+        return render_template('index.html', texts=texts_en, titles=titles)
 
     else:
         title_name = request.form.get("title").strip().title()
-        if not title_name:
-            message = texts_en[6]
-            return render_template('apology.html', message=message, texts=texts_en)
-        else:
-            title_option = df.title[df.title.str.contains(title_name)]
-            if len(title_option) == 0:
-                message = texts_en[7]
-                return render_template('apology.html', message=message, texts=texts_en)
-            if len(title_option) == 1 and title_option.values[0] == title_name:
-                genres = get_genres(title_name)
-                render_template('genre_choice.html', title_name=title_name, genres=genres, texts=texts_en)
 
-        return render_template('options.html', options=title_option.values, texts=texts_en)
+        if len(df.title[df.title == title_name]) == 0:
+            message = texts_en[7]
+            return render_template('apology.html', message=message, texts=texts_en)
+
+        genres = get_genres(title_name)
+        if len(genres) < 2:
+            genre = 'none'
+            recommendations = recommendation(title_name, genre)
+            return render_template('recommendations.html', recommendat=recommendations,
+                                   texts=texts_en)
+        else:
+            return render_template('genre_choice.html', title_name=title_name,
+                                   genres=genres, texts=texts_en)
 
 
 @app.route("/br", methods=["GET", "POST"])
 def index_br():
     if request.method == 'GET':
-        return render_template('index_br.html', texts=texts_br)
+        titles = df.title.sort_values().values
+        return render_template('index_br.html', texts=texts_br, titles=titles)
 
     else:
         title_name = request.form.get("title").strip().title()
-        if not title_name:
-            message = texts_br[6]
+
+        if len(df.title[df.title == title_name]) == 0:
+            message = texts_br[7]
             return render_template('apology_br.html', message=message, texts=texts_br)
-        else:
-            title_option = df.title[df.title.str.contains(title_name)]
-            if len(title_option) == 0:
-                message = texts_br[7]
-                return render_template('apology_br.html', message=message, texts=texts_br)
-            if len(title_option) == 1 and title_option.values[0] == title_name:
-                genres = get_genres(title_name)
-                render_template('genre_choice.html', title_name=title_name, genres=genres, texts=texts_br)
 
-        return render_template('opcoes.html', options=title_option.values, texts=texts_br)
-
-
-@app.route("/options", methods=["GET", "POST"])
-def options():
-    if request.method == 'POST':
-        title_name = request.form.get("title")
         genres = get_genres(title_name)
         if len(genres) < 2:
             genre = 'none'
             recommendations = recommendation(title_name, genre)
-            return render_template('recommendations.html', recommendat=recommendations, texts=texts_en)
+            return render_template('recomendacoes.html', recommendat=recommendations, texts=texts_br)
         else:
-            return render_template('genre_choice.html', title_name=title_name, genres=genres, texts=texts_en)
-
-
-@app.route("/opcoes", methods=["GET", "POST"])
-def opcoes():
-    if request.method == 'POST':
-        title_name = request.form.get("title")
-        genres = get_genres(title_name)
-        if len(genres) < 2:
-            genre = 'none'
-            recommendations = recommendation(title_name, genre)
-            return render_template('recommendations.html', recommendat=recommendations, texts=texts_br)
-        else:
-            return render_template('escolha_genero.html', title_name=title_name, genres=genres, texts=texts_br)
+            return render_template('escolha_genero.html', title_name=title_name,
+                                   genres=genres, texts=texts_br)
 
 
 @app.route("/genre_choice", methods=["GET", "POST"])
 def genre_choice():
     if request.method == 'POST':
         title_name = request.form.get("title")
-        genre = request.form.get("genre")
+        genre = request.form.getlist("genre")
+        print(genre)
         recommendations = recommendation(title_name, genre)
         return render_template('recommendations.html', recommendat=recommendations, texts=texts_en)
 
@@ -177,7 +162,8 @@ def genre_choice():
 def genre_choice_br():
     if request.method == 'POST':
         title_name = request.form.get("title")
-        genre = request.form.get("genre")
+        genre = request.form.getlist("genre")
+        print(genre)
         recommendations = recommendation(title_name, genre)
         return render_template('recomendacoes.html', recommendat=recommendations, texts=texts_br)
 

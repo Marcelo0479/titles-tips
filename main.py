@@ -17,6 +17,8 @@ df_adults = df[(df.parental_guidelines == 'Adults') | (df.parental_guidelines ==
 
 df_genres = pd.read_csv('https://raw.githubusercontent.com/Marcelo0479/recommendation_system/main/genres.csv', sep=';')
 
+titles = df.title.sort_values().values
+
 texts_en = ["Home", "Explanations", "Contact",
             "You subscribe to multiple streaming services and don't know what to watch? I can help you.",
             "Enter the name of a movie or TV show that you liked and I will indicate the 10 most similar titles among the main streaming services.",
@@ -78,8 +80,6 @@ def recommendation(title_name, genre):
     else:
         select_df = chosen_pg_df(title_name)
 
-    print(len(select_df))
-
     correct_index(select_df)
     cosine_sim_ = cosine_sim(select_df)
 
@@ -104,7 +104,6 @@ def recommendation(title_name, genre):
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == 'GET':
-        titles = df.title.sort_values().values
         return render_template('index.html', texts=texts_en, titles=titles)
 
     else:
@@ -115,8 +114,8 @@ def index():
             return render_template('apology.html', message=message, texts=texts_en)
 
         genres = get_genres(title_name)
-        if len(genres) < 2:
-            genre = 'none'
+        if len(genres) < 1:
+            genre = []
             recommendations = recommendation(title_name, genre)
             return render_template('recommendations.html', recommendat=recommendations,
                                    texts=texts_en)
@@ -128,7 +127,6 @@ def index():
 @app.route("/br", methods=["GET", "POST"])
 def index_br():
     if request.method == 'GET':
-        titles = df.title.sort_values().values
         return render_template('index_br.html', texts=texts_br, titles=titles)
 
     else:
@@ -140,7 +138,7 @@ def index_br():
 
         genres = get_genres(title_name)
         if len(genres) < 2:
-            genre = 'none'
+            genre = []
             recommendations = recommendation(title_name, genre)
             return render_template('recomendacoes.html', recommendat=recommendations, texts=texts_br)
         else:
@@ -153,7 +151,6 @@ def genre_choice():
     if request.method == 'POST':
         title_name = request.form.get("title")
         genre = request.form.getlist("genre")
-        print(genre)
         recommendations = recommendation(title_name, genre)
         return render_template('recommendations.html', recommendat=recommendations, texts=texts_en)
 
@@ -163,7 +160,6 @@ def genre_choice_br():
     if request.method == 'POST':
         title_name = request.form.get("title")
         genre = request.form.getlist("genre")
-        print(genre)
         recommendations = recommendation(title_name, genre)
         return render_template('recomendacoes.html', recommendat=recommendations, texts=texts_br)
 

@@ -8,7 +8,7 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 app.secret_key = 'super secret key'
 
-df = pd.read_csv('https://raw.githubusercontent.com/Marcelo0479/recommendation_system/main/df_prepared_recomendation_plus.csv', sep=';')
+df = pd.read_csv('https://raw.githubusercontent.com/Marcelo0479/recommendation_system/main/df_prepared_update_23_08.csv', sep=';')
 
 df_little_kids = df[(df.parental_guidelines == 'Little Kids') | (df.parental_guidelines == 'ALL AGES')]
 df_older_kids = df[df.parental_guidelines == 'Older Kids']
@@ -29,6 +29,13 @@ texts_br = ["Inicio", "Explicações", "Contato",
             "Digite o nome de um filme ou programa de TV que você gostou e indicarei os 10 títulos mais parecidos entre os principais serviços de streaming.",
             "Atualmente estamos verificando os títulos dos seguintes serviços de streaming:",
             'Você deve escolher um título', 'Título não encontrado']
+
+
+def maximum_size(select_df, x):
+    while(len(select_df) > 6500):
+        x += 0.1
+        select_df = select_df[select_df.average_rating > x]
+    return select_df
 
 
 def correct_index(select_df):
@@ -79,6 +86,10 @@ def recommendation(title_name, genre):
         select_df = filter_by_genre(genre)
     else:
         select_df = chosen_pg_df(title_name)
+
+    print(len(select_df))
+    select_df = maximum_size(select_df, 4.9)
+    print(len(select_df))
 
     correct_index(select_df)
     cosine_sim_ = cosine_sim(select_df)

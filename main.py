@@ -8,7 +8,7 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 app.secret_key = 'super secret key'
 
-df = pd.read_csv('https://raw.githubusercontent.com/Marcelo0479/recommendation_system/main/df_prepared_update_23_08.csv', sep=';')
+df = pd.read_csv('https://raw.githubusercontent.com/Marcelo0479/recommendation_system/main/df_prepared_update_24_08.csv', sep=';')
 
 df_little_kids = df[(df.parental_guidelines == 'Little Kids') | (df.parental_guidelines == 'ALL AGES')]
 df_older_kids = df[df.parental_guidelines == 'Older Kids']
@@ -87,10 +87,7 @@ def recommendation(title_name, genre):
     else:
         select_df = chosen_pg_df(title_name)
 
-    print(len(select_df))
     select_df = maximum_size(select_df, 4.9)
-    print(len(select_df))
-
     correct_index(select_df)
     cosine_sim_ = cosine_sim(select_df)
 
@@ -101,8 +98,7 @@ def recommendation(title_name, genre):
     sim_scores = sim_scores[1:11]
     movie_index = [i[0] for i in sim_scores]
 
-    df_titles_streamming = select_df[['title', 'streaming', 'average_rating']].iloc[movie_index]
-
+    df_titles_streamming = select_df[['title', 'streaming', 'average_rating', 'imdb_link']].iloc[movie_index]
     df_sim_scores = pd.DataFrame(sim_scores).set_index(0)
     df_sim_scores.rename(columns={1: 'sim_score'}, inplace=True)
     df_sim_scores = np.round(df_sim_scores * 100, 2).astype('str') + '%'

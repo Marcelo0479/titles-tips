@@ -17,7 +17,7 @@
         <tbody>
             {% for i in recommendat.index %}
                 <tr>
-                    <td>{{ recommendat['title'][i] }}</td>
+                    <td><a href="{{ recommendat['imdb_link'][i] }}" target="_blank">{{ recommendat['title'][i] }}</td>
                     <td>{{ recommendat['streaming'][i] }}</td>
                     <td>{{ recommendat['average_rating'][i] }}</td>
                     <td>{{ recommendat['sim_score'][i] }}</td>

@@ -72,3 +72,7 @@ body {
     left: 94%;
     cursor:  pointer;
 }
+
+th, td {
+    color: gray;
+}

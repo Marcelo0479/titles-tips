@@ -84,10 +84,8 @@ def filter_by_genre(genre):
 def recommendation(title_name, genre):
     if len(genre) > 0:
         select_df = filter_by_genre(genre)
-        print(len(select_df))
     else:
         select_df = chosen_pg_df(title_name)
-        print(len(select_df))
 
     select_df = maximum_size(select_df, 4.9)
     correct_index(select_df)

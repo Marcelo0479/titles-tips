@@ -8,7 +8,7 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 app.secret_key = 'super secret key'
 
-df = pd.read_csv('https://raw.githubusercontent.com/Marcelo0479/recommendation_system/main/df_prepared_update_25_08.csv', sep=';')
+df = pd.read_csv('https://raw.githubusercontent.com/Marcelo0479/recommendation_system/main/df_prepared_update_26_08.csv', sep=';')
 
 df_little_kids = df[(df.parental_guidelines == 'Little Kids') | (df.parental_guidelines == 'ALL AGES')]
 df_older_kids = df[df.parental_guidelines == 'Older Kids']
@@ -77,15 +77,17 @@ def filter_by_genre(genre):
             select_df = df[df.genre.str.contains(key_g)]
         if i > 0:
             key_g = df_genres[df_genres.genre == genre[i]].key.values[0]
-            select_df = select_df.merge(df[df.genre.str.contains(key_g)], how='inner')
+            select_df = select_df.merge(df[df.genre.str.contains(key_g)], how='outer')
     return select_df
 
 
 def recommendation(title_name, genre):
     if len(genre) > 0:
         select_df = filter_by_genre(genre)
+        print(len(select_df))
     else:
         select_df = chosen_pg_df(title_name)
+        print(len(select_df))
 
     select_df = maximum_size(select_df, 4.9)
     correct_index(select_df)
